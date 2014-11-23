@@ -1,0 +1,45 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Мастер-класс "Создание карты игрового мира на основе API Яндекс.Карт"</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        html {
+            margin: 0;
+        }
+        #map {
+            margin: 50px auto 0px auto;
+            width: 80%;
+            height: 600px;
+        }
+    </style>
+    <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
+    <script type="text/javascript">
+        var map;
+        ymaps.ready(function () {
+        
+            var Layer = function () {
+                var layer = new ymaps.Layer("./%z/%x-%y.jpeg");
+                layer.getZoomRange = function () {
+                    return ymaps.vow.resolve([0, 3]);
+                };
+                return layer;
+            };
+            var mapType = new ymaps.MapType("user#layer", [Layer]),
+                projection = new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [true, false]);
+
+            map = new ymaps.Map('map', {
+                center: [0, 0],
+                zoom: 3,
+                controls: [],
+                type: mapType,
+            }, {
+                projection: projection
+            });
+        });
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
