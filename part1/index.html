@@ -11,7 +11,7 @@
             margin: 50px auto 0px auto;
             width: 80%;
             height: 600px;
-			border: 2px solid black;
+            border: 2px solid black;
         }
     </style>
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
@@ -21,7 +21,8 @@
 		function onReady () {
             map = new ymaps.Map('map', {
                 center: [54.96752802, 73.36126386],
-                zoom: 10
+                zoom: 10,
+				controls: []
             });
         }
     </script>
