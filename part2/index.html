@@ -42,7 +42,7 @@
             map = new ymaps.Map('map', {
                 center: [0, 0],
                 zoom: 3,
-                controls: [],
+                controls: ['zoomControl'],
                 type: mapType,
             }, {
                 projection: new ymaps.projection.Cartesian([[-1, 1], [1, -1]], [false, false])
