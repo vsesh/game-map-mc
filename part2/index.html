@@ -11,22 +11,33 @@
             margin: 50px auto 0px auto;
             width: 80%;
             height: 600px;
+			border: 2px solid black;
         }
     </style>
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
     <script type="text/javascript">
         var map;
-        ymaps.ready(function () {
-        
+		ymaps.ready(onReady);
+		
+        function onReady () {
+		
+            var layerName = "user#layer";
             var Layer = function () {
-                var layer = new ymaps.Layer("./%z/%x-%y.jpeg");
+                var layer = new ymaps.Layer("./%z/%x-%y.jpeg", {
+					//tileTransparent: true,
+					notFoundTile: "./2/0-0.jpeg"
+				});
                 layer.getZoomRange = function () {
                     return ymaps.vow.resolve([0, 3]);
                 };
+				layer.getCopyrights = function () {
+					return ymaps.vow.resolve("wow!");
+				};
                 return layer;
             };
-            var mapType = new ymaps.MapType("user#layer", [Layer]),
-                projection = new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [true, false]);
+            ymaps.layer.storage.add(layerName, Layer);
+            var mapType = new ymaps.MapType(layerName, [layerName]);
+            ymaps.mapType.storage.add(layerName, mapType);
 
             map = new ymaps.Map('map', {
                 center: [0, 0],
@@ -34,9 +45,9 @@
                 controls: [],
                 type: mapType,
             }, {
-                projection: projection
+                projection: new ymaps.projection.Cartesian([[-1, 1], [1, -1]], [false, false])
             });
-        });
+        };
     </script>
 </head>
 <body>
