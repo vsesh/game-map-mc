@@ -14,8 +14,8 @@
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU"></script>
     <script type="text/javascript">
         ymaps.ready(function () {
-		
-		
+        
+        
             var layerName = "user#layer";
             var Layer = function () {
                 var layer = new ymaps.Layer("./%z/%x-%y.jpeg");
@@ -27,9 +27,9 @@
             ymaps.layer.storage.add(layerName, Layer);
             var mapType = new ymaps.MapType(layerName, [layerName]);
             ymaps.mapType.storage.add(layerName, mapType);
-			
-			
-			
+            
+            
+            
             var map = new ymaps.Map("map", {
                 center: [0, 0],
                 zoom: 2,

@@ -17,22 +17,22 @@
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
     <script type="text/javascript">
         var map;
-		ymaps.ready(onReady);
-		
+        ymaps.ready(onReady);
+        
         function onReady () {
-		
+        
             var layerName = "user#layer";
             var Layer = function () {
                 var layer = new ymaps.Layer("./%z/%x-%y.jpeg", {
-					//tileTransparent: true,
-					notFoundTile: "./2/0-0.jpeg"
-				});
+                    //tileTransparent: true,
+                    notFoundTile: "./2/0-0.jpeg"
+                });
                 layer.getZoomRange = function () {
                     return ymaps.vow.resolve([0, 3]);
                 };
-				layer.getCopyrights = function () {
-					return ymaps.vow.resolve("wow!");
-				};
+                layer.getCopyrights = function () {
+                    return ymaps.vow.resolve("wow!");
+                };
                 return layer;
             };
             ymaps.layer.storage.add(layerName, Layer);
