@@ -1,0 +1,72 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Мастер-класс "Создание карты игрового мира на основе API Яндекс.Карт"</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <style type="text/css">
+        html {
+            margin: 0;
+        }
+        #map {
+            margin: 50px auto 0px auto;
+            width: 80%;
+            height: 600px;
+            border: 2px solid black;
+        }
+    </style>
+    <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
+    <script type="text/javascript">
+        var map;
+        ymaps.ready(onReady);
+        
+        function onReady () {
+        
+            var layerName = "user#layer";
+            var Layer = function () {
+                var layer = new ymaps.Layer("./%z/%x-%y.jpeg", {
+                    //tileTransparent: true,
+                    notFoundTile: "./2/0-0.jpeg"
+                });
+                layer.getZoomRange = function () {
+                    return ymaps.vow.resolve([0, 3]);
+                };
+                layer.getCopyrights = function () {
+                    return ymaps.vow.resolve("wow!");
+                };
+                return layer;
+            };
+            ymaps.layer.storage.add(layerName, Layer);
+            var mapType = new ymaps.MapType(layerName, [layerName]);
+            ymaps.mapType.storage.add(layerName, mapType);
+
+            map = new ymaps.Map('map', {
+                center: [0, 0],
+                zoom: 3,
+                controls: ['zoomControl'],
+                type: mapType,
+            }, {
+                projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
+            });
+            
+            
+            
+            var placemark = new ymaps.Placemark([0, 0], {
+                balloonContent: 'Hey!',
+                hintContent: 'Текст хинта'
+            }, {
+                //preset: 'islands#darkGreenDotIcon'
+                ///*
+                iconLayout: 'default#image',
+                iconImageHref: './images/home.png',
+                iconImageSize: [30, 30],
+                iconImageOffset: [-15, -15]
+                //*/
+            });
+            map.geoObjects.add(placemark);
+        };
+    </script>
+</head>
+<body>
+    <div id="map"></div>
+</body>
+</html>
