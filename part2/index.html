@@ -16,7 +16,8 @@
     </style>
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
     <script type="text/javascript">
-        var map;
+        var map,
+            layerName = "user#layer";
         ymaps.ready(onReady);
         
         function onReady () {
@@ -25,7 +26,6 @@
         }
         
         function setupLayer () {
-            var layerName = "user#layer";
             var Layer = function () {
                 var layer = new ymaps.Layer("./%z/%x-%y.jpeg", {
                     //tileTransparent: true,
@@ -49,7 +49,7 @@
                 center: [0, 0],
                 zoom: 3,
                 controls: ['zoomControl'],
-                type: mapType,
+                type: layerName,
             }, {
                 projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
             });

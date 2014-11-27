@@ -16,17 +16,19 @@
     </style>
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
     <script type="text/javascript">
-        var map;
+        var map,
+            layerName = "user#layer";
         ymaps.ready(onReady);
         
         function onReady () {
             setupLayer();
             setupMap();
+            setupPresets();
+            setupBalloonLayout();
             setupPlaces();
         }
         
         function setupLayer () {
-            var layerName = "user#layer";
             var Layer = function () {
                 var layer = new ymaps.Layer("./%z/%x-%y.jpeg", {
                     //tileTransparent: true,
@@ -50,27 +52,64 @@
                 center: [0, 0],
                 zoom: 3,
                 controls: ['zoomControl'],
-                type: mapType,
+                type: layerName,
             }, {
                 projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
             });
         }
         
-        function setupPlaces () {
-            ymaps.option.presetStorage.add('game#homeIcon', {
-                iconLayout: 'default#image',
-                iconImageHref: './images/home.png',
-                iconImageSize: [30, 30],
-                iconImageOffset: [-15, -15]
-            });
+        function setupPresets () {
+            ymaps.option.presetStorage
+                .add('game#homeIcon', {
+                    iconLayout: 'default#image',
+                    iconImageHref: './images/home.png',
+                    iconImageSize: [30, 30],
+                    iconImageOffset: [-15, -15]
+                })
+                .add('game#healthIcon', {
+                    iconLayout: 'default#image',
+                    iconImageHref: './images/health.png',
+                    iconImageSize: [30, 30],
+                    iconImageOffset: [-15, -15]
+                })
+                .add('game#jumpIcon', {
+                    iconLayout: 'default#image',
+                    iconImageHref: './images/jump.png',
+                    iconImageSize: [30, 30],
+                    iconImageOffset: [-15, -15]
+                });
+        }
+        
+        function setupBalloonLayout () {
             
-            var placemark = new ymaps.Placemark([0, 0], {
-                balloonContent: 'Hey!',
-                hintContent: 'Текст хинта'
+        }
+        
+        function setupPlaces () { 
+            var placemark1 = new ymaps.Placemark([0, 0], {
+                balloonContent: 'Home',
+                hintContent: 'Home'
             }, {
                 preset: 'game#homeIcon'
             });
-            map.geoObjects.add(placemark);
+            
+            var placemark2 = new ymaps.Placemark([0, 0.3], {
+                balloonContent: 'Health',
+                hintContent: 'Health'
+            }, {
+                preset: 'game#healthIcon'
+            });
+            
+             var placemark3 = new ymaps.Placemark([0, -0.3], {
+                balloonContent: 'Jump',
+                hintContent: 'Jump'
+            }, {
+                preset: 'game#jumpIcon'
+            });
+            
+            map.geoObjects
+                .add(placemark1)
+                .add(placemark2)
+                .add(placemark3);
         }
     </script>
 </head>
