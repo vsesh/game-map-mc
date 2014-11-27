@@ -14,7 +14,7 @@
             border: 2px solid black;
         }
     </style>
-    <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
+    <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug&coordorder=longlat"></script>
     <!-- https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/concepts/About-docpage/ -->
     <script type="text/javascript">
         var map,
@@ -88,14 +88,14 @@
                 preset: 'game#homeIcon'
             });
             
-            var placemark2 = new ymaps.Placemark([0, 0.3], {
+            var placemark2 = new ymaps.Placemark([0.3, 0], {
                 balloonContent: 'Health',
                 hintContent: 'Health'
             }, {
                 preset: 'game#healthIcon'
             });
             
-             var placemark3 = new ymaps.Placemark([0, -0.3], {
+             var placemark3 = new ymaps.Placemark([-0.3, 0], {
                 balloonContent: 'Jump',
                 hintContent: 'Jump'
             }, {
