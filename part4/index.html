@@ -22,6 +22,7 @@
         function onReady () {
             setupLayer();
             setupMap();
+            setupPlaces();
         }
         
         function setupLayer () {
@@ -53,6 +54,23 @@
             }, {
                 projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
             });
+        }
+        
+        function setupPlaces () {
+            ymaps.option.presetStorage.add('game#homeIcon', {
+                iconLayout: 'default#image',
+                iconImageHref: './images/home.png',
+                iconImageSize: [30, 30],
+                iconImageOffset: [-15, -15]
+            });
+            
+            var placemark = new ymaps.Placemark([0, 0], {
+                balloonContent: 'Hey!',
+                hintContent: 'Текст хинта'
+            }, {
+                preset: 'game#homeIcon'
+            });
+            map.geoObjects.add(placemark);
         }
     </script>
 </head>

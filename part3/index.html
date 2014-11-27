@@ -20,7 +20,12 @@
         ymaps.ready(onReady);
         
         function onReady () {
+            setupLayer();
+            setupMap();
+            setupPlaces();
+        }
         
+        function setupLayer () {
             var layerName = "user#layer";
             var Layer = function () {
                 var layer = new ymaps.Layer("./%z/%x-%y.jpeg", {
@@ -28,7 +33,7 @@
                     notFoundTile: "./2/0-0.jpeg"
                 });
                 layer.getZoomRange = function () {
-                    return ymaps.vow.resolve([0, 3]);
+                    return ymaps.vow.resolve([1, 3]);
                 };
                 layer.getCopyrights = function () {
                     return ymaps.vow.resolve("wow!");
@@ -38,7 +43,9 @@
             ymaps.layer.storage.add(layerName, Layer);
             var mapType = new ymaps.MapType(layerName, [layerName]);
             ymaps.mapType.storage.add(layerName, mapType);
-
+        }
+        
+        function setupMap () {
             map = new ymaps.Map('map', {
                 center: [0, 0],
                 zoom: 3,
@@ -47,23 +54,32 @@
             }, {
                 projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
             });
-            
-            
+        }
+        
+        function setupPlaces () {
+            ymaps.option.presetStorage.add('game#homeIcon', {
+                iconLayout: 'default#image',
+                iconImageHref: './images/home.png',
+                iconImageSize: [30, 30],
+                iconImageOffset: [-15, -15]
+            });
             
             var placemark = new ymaps.Placemark([0, 0], {
                 balloonContent: 'Hey!',
                 hintContent: 'Текст хинта'
             }, {
-                //preset: 'islands#darkGreenDotIcon'
-                ///*
+                preset: 'game#homeIcon'
+                /*
                 iconLayout: 'default#image',
                 iconImageHref: './images/home.png',
                 iconImageSize: [30, 30],
                 iconImageOffset: [-15, -15]
-                //*/
+                */
             });
             map.geoObjects.add(placemark);
-        };
+            
+            // TODO еще две метки
+        }
     </script>
 </head>
 <body>
