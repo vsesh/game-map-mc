@@ -60,9 +60,9 @@
         
         function setupPresets () {
             ymaps.option.presetStorage
-                .add('game#homeIcon', {
+                .add('game#houseIcon', {
                     iconLayout: 'default#image',
-                    iconImageHref: './images/home.png',
+                    iconImageHref: './images/house.png',
                     iconImageSize: [30, 30],
                     iconImageOffset: [-15, -15]
                 })
@@ -82,10 +82,10 @@
         
         function setupPlaces () { 
             var placemark1 = new ymaps.Placemark([0, 0], {
-                balloonContent: 'Home',
-                hintContent: 'Home'
+                balloonContent: 'house',
+                hintContent: 'house'
             }, {
-                preset: 'game#homeIcon'
+                preset: 'game#houseIcon'
             });
             
             var placemark2 = new ymaps.Placemark([0.3, 0], {

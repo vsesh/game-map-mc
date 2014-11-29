@@ -37,7 +37,7 @@
                     notFoundTile: "./2/0-0.jpeg"
                 });
                 layer.getZoomRange = function () {
-                    return ymaps.vow.resolve([1, 3]);
+                    return ymaps.vow.resolve([0, 3]);
                 };
                 layer.getCopyrights = function () {
                     return ymaps.vow.resolve("wow!");
@@ -62,9 +62,9 @@
         
         function setupPresets () {
             ymaps.option.presetStorage
-                .add('game#homeIcon', {
+                .add('game#houseIcon', {
                     iconLayout: 'default#image',
-                    iconImageHref: './images/home.png',
+                    iconImageHref: './images/house.png',
                     iconImageSize: [30, 30],
                     iconImageOffset: [-15, -15]
                 })
