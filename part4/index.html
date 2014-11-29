@@ -14,10 +14,12 @@
             border: 2px solid black;
         }
     </style>
-    <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug"></script>
+    <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug&coordorder=longlat"></script>
+    <script type="text/javascript" src="./data/placesData.js"></script>
     <!-- https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/concepts/About-docpage/ -->
     <script type="text/javascript">
         var map,
+            objectManager,
             layerName = "user#layer";
         ymaps.ready(onReady);
         
@@ -80,32 +82,10 @@
                 });
         }
         
-        function setupPlaces () { 
-            var placemark1 = new ymaps.Placemark([0, 0], {
-                balloonContent: 'Home',
-                hintContent: 'Home'
-            }, {
-                preset: 'game#homeIcon'
-            });
-            
-            var placemark2 = new ymaps.Placemark([0, 0.3], {
-                balloonContent: 'Health',
-                hintContent: 'Health'
-            }, {
-                preset: 'game#healthIcon'
-            });
-            
-             var placemark3 = new ymaps.Placemark([0, -0.3], {
-                balloonContent: 'Jump',
-                hintContent: 'Jump'
-            }, {
-                preset: 'game#jumpIcon'
-            });
-            
-            map.geoObjects
-                .add(placemark1)
-                .add(placemark2)
-                .add(placemark3);
+        function setupPlaces () {
+            objectManager = new ymaps.ObjectManager();
+            objectManager.add(placesData);
+            map.geoObjects.add(objectManager);
         }
     </script>
 </head>
