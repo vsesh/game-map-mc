@@ -33,26 +33,25 @@
             background-color: #BFD9DE;
         }
         
-        .show_house {
+        #show_house {
             background-image: url('./images/house.png');
             background-repeat: no-repeat;
             background-position: center, center;
         }
         
-        .show_jump {
+        #show_jump {
             background-image: url('./images/jump.png');
             background-repeat: no-repeat;
             background-position: center, center;
         }
         
-        .show_health {
+        #show_health {
             background-image: url('./images/health.png');
             background-repeat: no-repeat;
             background-position: center, center;
         }
     </style>
     <script type="text/javascript" src="http://api-maps.yandex.ru/2.1/?lang=ru-RU&mode=debug&coordorder=longlat"></script>
-    <script type="text/javascript" src="http://yastatic.net/jquery/2.1.1/jquery.min.js"></script>
     <script type="text/javascript" src="./data/placesData.js"></script>
     <!-- https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/concepts/About-docpage/ -->
     <script type="text/javascript">
@@ -89,14 +88,12 @@
         }
         
         function setupMap () {
-        
             var btn = new ymaps.control.Button({
                 options: {
                     float: 'right',
                     layout: 'game#sidebarLayout'
                 }
             });
-        
             map = new ymaps.Map('map', {
                 center: [0, 0],
                 zoom: 3,
@@ -109,16 +106,57 @@
         
         function setupSibebar () {
             var sidebarClass = ymaps.templateLayoutFactory.createClass(
-                '<div class="sidebar"><div class="show_icon show_house">' +
-                '</div><div class="show_icon show_jump"></div>' + 
-                '<div class="show_icon show_health"></div></div>', 
+                '<div class="sidebar">' +
+                    '<div class="show_icon" id="show_house"></div>' +
+                    '<div class="show_icon" id="show_jump"></div>' +
+                    '<div class="show_icon" id="show_health"></div>' +
+                '</div>', 
                 {
                     build: function () {
                         sidebarClass.superclass.build.call(this);
+                        this._buttonListeners = [];
+                        this._filters = [];
+                        this._setupButtons();
                     },
                     
                     clear: function () {
+                        this._teardownButtons();
                         sidebarClass.superclass.clear.call(this);
+                    },
+                    
+                    _setupButtons: function () {
+                        this._setupButton(document.getElementById('show_house'), 'house');
+                        this._setupButton(document.getElementById('show_jump'), 'jump');
+                        this._setupButton(document.getElementById('show_health'), 'health');
+                    },
+                    
+                    _setupButton: function (node, key) {
+                        this._filters.push(key);
+                        var listenerGroup = ymaps.domEvent.manager.group(node);
+                        listenerGroup.add('click', this._clickHandler, this);
+                        this._buttonListeners[key] = listenerGroup;
+                    },
+                    
+                    _teardownButtons: function () {
+                        for (var key in this._buttonListeners) {
+                            this._buttonListeners[key].removeAll();
+                        }
+                        this._buttonListeners = {};
+                    },
+                    
+                    _clickHandler: function (e) {
+                        var filterKey = e.get('target').id.replace('show_', ''),
+                            // TODO IE8 :)
+                            index = this._filters.indexOf(filterKey);
+                        if (index == -1) {
+                            this._filters.push(filterKey);
+                        } else {
+                            this._filters.splice(index, 1);
+                        }
+  
+                        objectManager.setFilter(
+                            'properties.type == "' + this._filters.join('" || properties.type == "') + '"'
+                        );
                     }
                 }
             );
