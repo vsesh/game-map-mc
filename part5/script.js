@@ -5,7 +5,7 @@ ymaps.ready(onReady);
 
 function onReady () {
     setupLayer();
-    setupSibebar();
+    setupSidebar();
     setupMap();
     setupPresets();
     setupPlaces();
@@ -30,80 +30,80 @@ function setupLayer () {
     ymaps.mapType.storage.add(layerName, mapType);
 }
 
-function setupMap () {
-    var btn = new ymaps.control.Button({
-        options: {
-            float: 'right',
-            layout: 'game#sidebarLayout'
-        }
-    });
-    map = new ymaps.Map('map', {
-        center: [0, 0],
-        zoom: 3,
-        controls: ['zoomControl', btn],
-        type: layerName,
-    }, {
-        projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
-    });
-}
-
-function setupSibebar () {
-    var sidebarClass = ymaps.templateLayoutFactory.createClass(
-        '<div class="sidebar">' +
-            '<div class="show_icon" id="show_house"></div>' +
-            '<div class="show_icon" id="show_jump"></div>' +
-            '<div class="show_icon" id="show_health"></div>' +
-        '</div>', 
-        {
+function setupSidebar () {
+    var layoutClass = ymaps.templateLayoutFactory.createClass(
+        '<div class=sidebar>' +
+            '<div class=show_icon id=show_house></div>' + 
+            '<div class=show_icon id=show_jump></div>' + 
+            '<div class=show_icon id=show_health></div>' + 
+        '</div>', {
             build: function () {
-                sidebarClass.superclass.build.call(this);
-                this._buttonListeners = [];
-                this._filters = [];
+                layoutClass.superclass.build.call(this);
                 this._setupButtons();
             },
             
             clear: function () {
                 this._teardownButtons();
-                sidebarClass.superclass.clear.call(this);
+                layoutClass.superclass.clear.call(this);
             },
             
             _setupButtons: function () {
+                this._listeners = {};
+                this._filters = [];
                 this._setupButton(document.getElementById('show_house'), 'house');
                 this._setupButton(document.getElementById('show_jump'), 'jump');
                 this._setupButton(document.getElementById('show_health'), 'health');
             },
             
-            _setupButton: function (node, key) {
+           _setupButton: function (element, key) {
                 this._filters.push(key);
-                var listenerGroup = ymaps.domEvent.manager.group(node);
-                listenerGroup.add('click', this._clickHandler, this);
-                this._buttonListeners[key] = listenerGroup;
+                var group = ymaps.domEvent.manager.group(element);
+                group.add('click', function () {
+                    // TODO IE8
+                    var index = this._filters.indexOf(key);
+                    if (index == -1) {
+                        this._filters.push(key);
+                    } else {
+                        this._filters.splice(index, 1);
+                    }
+                    //properties.type == "jump" || properties.type == "house"
+                    objectManager.setFilter(
+                        'properties.type == "' + this._filters.join('" || properties.type == "') + '"'
+                    );
+                }, this);
+                this._listeners[key] = group;
             },
             
             _teardownButtons: function () {
-                for (var key in this._buttonListeners) {
-                    this._buttonListeners[key].removeAll();
+                for (var key in this._listeners) {
+                    if (this._listeners.hasOwnProperty(key)) {
+                        this._listeners[key].removeAll();
+                    }
                 }
-                this._buttonListeners = {};
-            },
-            
-            _clickHandler: function (e) {
-                var filterKey = e.get('target').id.replace('show_', ''),
-                    // TODO IE8 :)
-                    index = this._filters.indexOf(filterKey);
-                if (index == -1) {
-                    this._filters.push(filterKey);
-                } else {
-                    this._filters.splice(index, 1);
-                }
-
-                objectManager.setFilter(
-                    'properties.type == "' + this._filters.join('" || properties.type == "') + '"'
-                );
+                this._listeners = {};
             }
         }
     );
-    ymaps.layout.storage.add('game#sidebarLayout', sidebarClass);
+    ymaps.layout.storage.add('game#sidebatLayout', layoutClass);
+}
+
+function setupMap () {
+    map = new ymaps.Map('map', {
+        center: [0, 0],
+        zoom: 3,
+        controls: ['zoomControl'],
+        type: layerName,
+    }, {
+        projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
+    });
+    
+    var btn = new ymaps.control.Button({
+        options: {
+            layout: 'game#sidebatLayout',
+            position: {top: 5, right: 5}
+        }
+    });
+    map.controls.add(btn);
 }
 
 function setupPresets () {
