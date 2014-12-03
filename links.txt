@@ -1,14 +1,29 @@
-﻿Официальная группа в Facebook
-https://clck.ru/9NJNx 
+﻿Документация версии 2.1
+https://tech.yandex.ru/maps/doc/jsapi/2.1/ref/concepts/About-docpage/
+
+Официальная группа в Facebook
+https://www.facebook.com/ymapsapi
 
 Клуб разработчиков API Яндекс.Карт
-https://clck.ru/1-o2j
-
-Документация версии 2.1
-https://clck.ru/9NJNt 
+http://clubs.ya.ru/mapsapi/
 
 Определение координат
-https://clck.ru/9N7w4
+http://dimik.github.io/ymaps/examples/location-tool/
 
 Инструмент для нарезки тайлов из изображений
-https://clck.ru/9NHgs
+http://geohosting.pro/products/tiler/
+
+Банкоматы 
+http://www.raiffeisen.ru/offices/
+
+Велопрокат в Москве за лето 2014 года
+http://getwalk.me/velo/
+
+Путешествие фекалий
+http://www.koprotravel.info/
+
+Схема аэропорта Шереметьево
+http://www.svo.aero/transport/
+
+Интерактивная карта Skyrim
+http://skyrim.coolaps.com/
