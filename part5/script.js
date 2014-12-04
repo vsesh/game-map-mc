@@ -92,7 +92,7 @@ function setupMap () {
         center: [0, 0],
         zoom: 3,
         controls: ['zoomControl'],
-        type: layerName,
+        type: layerName
     }, {
         projection: new ymaps.projection.Cartesian([[-1, -1], [1, 1]], [false, false])
     });
