@@ -61,7 +61,7 @@ function setupSidebar () {
                 group.add('click', function () {
                     // TODO IE8
                     var index = this._filters.indexOf(key);
-                    if (index == -1) {
+                    if (index === -1) {
                         this._filters.push(key);
                     } else {
                         this._filters.splice(index, 1);
